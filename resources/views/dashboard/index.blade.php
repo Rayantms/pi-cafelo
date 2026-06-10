@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout titulo="Dashboard">
 
     <div class="space-y-8">
 

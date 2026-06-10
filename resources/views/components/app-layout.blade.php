@@ -1,9 +1,13 @@
+@props([
+    'titulo' => 'Cafélo',
+])
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name') }}</title>
+    <title>{{ $titulo }} | {{ config('app.name') }}</title>
 
     @vite(['resources/css/app.css','resources/js/app.js'])
 
@@ -17,13 +21,13 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 text-slate-900">
 
     <x-sidebar />
 
     <main class="ml-[280px] min-h-screen">
 
-        <x-navbar />
+        <x-navbar :titulo="$titulo" />
 
         <div class="p-8">
             {{ $slot }}
