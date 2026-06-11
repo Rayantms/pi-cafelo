@@ -6,6 +6,7 @@
 @php
     $items = [
         ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('dashboard'), 'active' => request()->routeIs('dashboard')],
+        ['label' => 'Perfil', 'icon' => 'person', 'href' => route('perfil'), 'active' => request()->routeIs('perfil')],
         ['label' => 'Produtos', 'icon' => 'inventory_2', 'href' => '#', 'active' => false],
         ['label' => 'Clientes', 'icon' => 'group', 'href' => '#', 'active' => false],
         ['label' => 'Vendas', 'icon' => 'point_of_sale', 'href' => '#', 'active' => false],
@@ -60,7 +61,7 @@
 
     <div class="space-y-1 p-3">
 
-        <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white">
+        <a href="{{ route('configuracoes') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white">
             <span class="material-symbols-outlined text-[20px]">settings</span>
             <span>Configurações</span>
         </a>
