@@ -10,7 +10,7 @@
         ['label' => 'Clientes', 'icon' => 'group', 'href' => '#', 'active' => false],
         ['label' => 'Vendas', 'icon' => 'point_of_sale', 'href' => '#', 'active' => false],
         ['label' => 'Resgates', 'icon' => 'redeem', 'href' => '#', 'active' => false],
-        ['label' => 'Histórico', 'icon' => 'history', 'href' => '#', 'active' => false],
+        ['label' => 'Histórico', 'icon' => 'history', 'href' => route('dashboard.historico-vendas'), 'active' => request()->routeIs('dashboard.historico-vendas')],
     ];
 @endphp
 

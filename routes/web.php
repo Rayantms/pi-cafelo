@@ -7,11 +7,8 @@ use App\Http\Controllers\DashboardController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-use App\Models\Cliente;
+// Histórico de Vendas (view direta)
+Route::get('/dashboard/historico-vendas', function () {
+	return view('dashboard.historico-vendas');
+})->name('dashboard.historico-vendas');
 
-Route::get('/', function () {
-
-    $cliente = Cliente::find(1);
-
-    return view('pontos', compact('cliente'));
-});

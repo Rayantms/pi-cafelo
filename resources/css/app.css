@@ -4,6 +4,29 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900;
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .font-display {
+        font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+    }
+}
+
+@layer utilities {
+    .glass-card {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+    }
 }
