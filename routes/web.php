@@ -1,19 +1,23 @@
 <?php
 
+use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClientePerfilController;
 
 /* Route::middleware(['auth'])->group(function () {
 }); */
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/perfil', [ClientePerfilController::class, 'show'])->name('perfil');
+Route::put('/perfil', [ClientePerfilController::class, 'update'])->name('perfil.update');
 
-use App\Models\Cliente;
+Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])->name('cadastro-cliente');
+Route::get('/tela-Login', [DashboardController::class, 'telaLogin'])->name('tela-login');
+Route::get('/configuracoes', [ConfiguracoesController::class, 'index'])->name('configuracoes');
+Route::put('/configuracoes', [ConfiguracoesController::class, 'update'])->name('configuracoes.update');
 
-/*Route::get('/', function () {
-
-    $cliente = Cliente::find(1);
-
-    return view('pontos', compact('cliente'));
-});*/
+Route::get('/registro-de-vendas', function () {
+    return view('dashboard.registrodevendas');
+})->name('registro-devendas');
 
 Route::view('/resgates', 'stitch.tela-resgate')->name('resgates');
