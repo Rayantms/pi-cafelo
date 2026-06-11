@@ -21,3 +21,8 @@ Route::get('/tela-Login', [DashboardController::class, 'telaLogin'])->name('tela
 Route::get('/configuracoes', [ConfiguracoesController::class, 'index'])->name('configuracoes');
 Route::put('/configuracoes', [ConfiguracoesController::class, 'update'])->name('configuracoes.update');
 
+Route::get('/registro-de-vendas', function () {
+    return view('dashboard.registrodevendas');
+})->name('registro-devendas');
+
+//
