@@ -20,4 +20,4 @@ Route::get('/registro-de-vendas', function () {
     return view('dashboard.registrodevendas');
 })->name('registro-devendas');
 
-//
+Route::view('/resgates', 'stitch.tela-resgate')->name('resgates');
