@@ -15,4 +15,15 @@ class DashboardController extends Controller
             'novosClientes' => 18,
         ]);
     }
+
+    public function cadastroCliente()
+    {
+        return view('cadastro-cliente');
+    }
+
+    public function telaLogin()
+    {
+        return view('stitch.tela-Login');
+    }
+
 }

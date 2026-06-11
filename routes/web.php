@@ -7,11 +7,8 @@ use App\Http\Controllers\DashboardController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-use App\Models\Cliente;
+Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])->name('cadastro-cliente');
+Route::get('/tela-Login', [DashboardController::class, 'telaLogin'])->name('tela-login');
 
-Route::get('/', function () {
 
-    $cliente = Cliente::find(1);
 
-    return view('pontos', compact('cliente'));
-});
