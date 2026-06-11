@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registro de Venda (PDV) - Grão &amp; Fidelidade</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#afa487",
+                      "surface-bright": "#f8f9fa",
+                      "secondary-fixed-dim": "#f0bd8b",
+                      "background": "#f8f9fa",
+                      "on-secondary-fixed": "#2c1600",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#7a532a",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#d4c3bf",
+                      "tertiary-fixed": "#eee2c2",
+                      "inverse-primary": "#e5beb5",
+                      "surface-dim": "#d9dadb",
+                      "on-surface": "#191c1d",
+                      "surface": "#f8f9fa",
+                      "outline": "#827471",
+                      "secondary": "#7d562d",
+                      "on-background": "#191c1d",
+                      "primary-container": "#4e342e",
+                      "surface-variant": "#e1e3e4",
+                      "surface-container": "#edeeef",
+                      "surface-tint": "#755750",
+                      "surface-container-highest": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#ffdad2",
+                      "on-secondary-fixed-variant": "#623f18",
+                      "on-surface-variant": "#504442",
+                      "secondary-container": "#ffca98",
+                      "primary": "#361f1a",
+                      "on-secondary": "#ffffff",
+                      "inverse-surface": "#2e3132",
+                      "on-tertiary-fixed-variant": "#4e462f",
+                      "on-primary-container": "#c19c94",
+                      "on-primary": "#ffffff",
+                      "tertiary-container": "#413a24",
+                      "on-primary-fixed": "#2b1611",
+                      "tertiary": "#2b2410",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#e5beb5",
+                      "inverse-on-surface": "#f0f1f2",
+                      "secondary-fixed": "#ffdcbd",
+                      "on-tertiary-fixed": "#211b08",
+                      "surface-container-low": "#f3f4f5",
+                      "tertiary-fixed-dim": "#d2c6a7",
+                      "on-primary-fixed-variant": "#5c403a",
+                      "surface-container-high": "#e7e8e9",
+                      "on-error": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "lg": "48px",
+                      "margin-mobile": "16px",
+                      "xl": "80px",
+                      "margin-desktop": "40px",
+                      "md": "24px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-xl": ["Montserrat"],
+                      "headline-lg-mobile": ["Montserrat"],
+                      "headline-lg": ["Montserrat"],
+                      "headline-md": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #F8F9FA; }
+        
+        /* Custom scrollbar for catalogs */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #d4c3bf; /* outline-variant */
+            border-radius: 9999px;
+        }
+        
+        .product-card-hover:hover {
+            box-shadow: 0px 4px 20px rgba(78, 52, 46, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .focus-ring-bronze:focus-within {
+            border-color: #D4A373; /* Bronze */
+            box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-primary dark:bg-primary-container text-secondary-fixed dark:text-secondary-fixed-dim font-body-md text-body-md fixed left-0 top-0 h-full w-[280px] shadow-[0px_4px_20px_rgba(78,52,46,0.08)] z-50 flex flex-col h-full py-md">
+<!-- Brand/Header -->
+<div class="px-md mb-lg flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest flex items-center justify-center mb-sm shadow-sm overflow-hidden">
+<img alt="Grão &amp; Fidelidade Logo" class="w-full h-full object-cover" data-alt="A stylized, modern, and minimalist vector illustration of a single coffee bean that subtly incorporates a geometric heart or infinity symbol, representing loyalty and care. The design uses deep earth tones like roasted coffee brown and warm bronze. The image is set against a clean, off-white background, ensuring high contrast. Lighting is flat and graphic, suitable for a brand logo mark." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEAB8rXzDjsqKoqJjrd2MnrA-FZDA3dsZRRJjufMaZTuzm0OD0gDaUGdpLimcuqrMbVnWRUtNh0avC8JNUD2PNJUnYdafBTJlEfO5gCMOPLszpf4yMWtSrbdc2J-ViPKRoYulGF9AgSNKBtC7ntOuTWyKeHBDT27Ecvo6S-OxvP1pXBO-UZ1kbHs3TohsL1qvJsdyacHLlxUPIBkPaPbwgkY36-FxLd66NhMjWLQanLX8T4fBtXLJHb0gZelP27WXV9yJ-EdgcfqdX"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed text-center">Grão &amp; Fidelidade</h1>
+<span class="font-label-sm text-label-sm text-secondary-fixed/70 mt-xs uppercase">Admin Terminal</span>
+</div>
+<!-- Primary CTA (if applicable) -->
+<div class="px-md mb-md">
+<button class="w-full bg-[#D4A373] text-on-primary font-label-md text-label-md py-sm rounded-lg shadow-sm hover:bg-[#c39160] transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                Nova Venda
+            </button>
+</div>
+<!-- Main Nav Links -->
+<div class="flex-1 px-sm overflow-y-auto custom-scrollbar">
+<ul class="space-y-xs">
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Produtos</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Clientes</span>
+</a>
+</li>
+<li>
+<!-- ACTIVE STATE -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-secondary-fixed font-bold border-l-4 border-secondary-fixed bg-on-primary-container/10 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">point_of_sale</span>
+<span class="font-label-md text-label-md">Vendas</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">redeem</span>
+<span class="font-label-md text-label-md">Resgates</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Histórico</span>
+</a>
+</li>
+</ul>
+</div>
+<!-- Footer Links -->
+<div class="px-sm pt-sm mt-auto border-t border-outline-variant/10">
+<ul class="space-y-xs">
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-on-primary-container/5 transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sair</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Canvas (Offset by SideNav) -->
+<main class="ml-[280px] h-screen flex flex-col bg-surface">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-dim text-primary dark:text-primary-fixed font-body-md text-body-md docked full-width top-0 sticky z-40 shadow-sm flex justify-between items-center h-16 px-md w-full">
+<div class="flex items-center gap-sm">
+<!-- Contextual Title instead of Brand Logo since it's on Sidenav -->
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Terminal PDV</h2>
+</div>
+<div class="flex items-center gap-md">
+<!-- TopNav Actions -->
+<div class="flex items-center gap-xs text-on-surface-variant">
+<button aria-label="notifications" class="p-2 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="help" class="p-2 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full transition-all duration-200">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<!-- Profile -->
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Foto de Perfil do Administrador" class="w-full h-full object-cover" data-alt="A professional headshot of a confident female store manager in her 30s. She has dark hair tied back neatly and wears a warm bronze-colored apron over a crisp white shirt, fitting a modern cafe setting. The background is a slightly blurred, bright indoor coffee shop environment. The lighting is soft and flattering, emphasizing a welcoming and capable expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhDdBgx0yzEZWz1acy5NjVx3LPD5zoWoKctvzOGZn6FpESxkvIyRKy0tMAgCCY53-ISiN8_xpF3YGVUdumbKNsmG-yY--RvmZE9G83j31b0Diw8kH4WRIYNt7W26_PEXSIWW6oZxrEvesxyr5Z7wbhEeqJ6hJwGAvp6hPJYnlLwkUX9m99y6tU7be3bJbCHltfy142w8o4APRiPsCpIPE0dRN_xZkl8h4cThNc1jZKjvUl0Ns_i1LBUlPfZNgqAilSPTKWuZTVnwy3"/>
+</div>
+</div>
+</header>
+<!-- PDV Workspace -->
+<div class="flex-1 flex overflow-hidden p-gutter gap-gutter">
+<!-- LEFT COLUMN: Product Catalog (Bento-style Grid) -->
+<section class="flex-1 flex flex-col bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(78,52,46,0.08)] overflow-hidden">
+<!-- Catalog Header / Search -->
+<div class="p-md border-b border-surface-container">
+<div class="relative focus-ring-bronze rounded-lg bg-surface-bright border border-outline-variant/50 transition-all">
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</div>
+<input class="block w-full pl-xl pr-sm py-sm bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-on-surface-variant/60" placeholder="Buscar produtos por nome ou código..." type="text"/>
+</div>
+<!-- Categories (Pills) -->
+<div class="flex gap-sm mt-sm overflow-x-auto pb-2 custom-scrollbar">
+<button class="px-md py-xs rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm whitespace-nowrap">Todos</button>
+<button class="px-md py-xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-container-high transition-colors">Cafés Especiais</button>
+<button class="px-md py-xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-container-high transition-colors">Acompanhamentos</button>
+<button class="px-md py-xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-container-high transition-colors">Acessórios</button>
+</div>
+</div>
+<!-- Catalog Grid -->
+<div class="flex-1 p-md overflow-y-auto custom-scrollbar bg-surface/50">
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Product Item 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg overflow-hidden product-card-hover transition-all flex flex-col group cursor-pointer">
+<div class="h-32 relative bg-surface-container-high">
+<img alt="Espresso Duplo" class="w-full h-full object-cover" data-alt="A close-up, high-quality photograph of a perfectly extracted double espresso in a pristine white ceramic demitasse cup. The crema is rich, thick, and hazelnut-brown, displaying tiger-striping details. The cup rests on a matching saucer against a clean, light marble countertop. Lighting is bright and natural, highlighting the glossy surface of the espresso crema." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF8xiCJhjf0N_rVtgfC-oh9dTYweG7lZTBYaPSLXIkyIHhDtjik99xAL1WOvcxEKk4R-Vp8KrDbjpFrIoZPensfBQtWlNnYEV1YT8d1gPIg4Jz09TKPKCL6xZpOV2PSc6EVQbk3uP3TwIEyXuygc50sSCihyzUmqk3VTIXolzcE7SQcE4yZf0V5oGDKospPL_UsD_QSoKWJ2Mz1744VLbjKQq4dwkRQ9Ui_ScLsOL6VFFLoISqXJjawtXCN1IZTMz08YsyrS79jNws"/>
+<div class="absolute top-2 right-2 bg-[#FAEDCD] text-primary font-label-sm text-label-sm px-2 py-1 rounded-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span> +5 Pts
+                                </div>
+</div>
+<div class="p-sm flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface line-clamp-1">Espresso Duplo</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Grão Arábica</p>
+</div>
+</div>
+<div class="mt-sm flex justify-between items-center">
+<span class="font-headline-md text-headline-md-mobile text-primary font-bold">R$ 12,50</span>
+<button data-id="p1" data-nome="Espresso Duplo" data-preco="12.5" data-pontos="5" class="w-8 h-8 rounded-full bg-surface-container text-primary flex items-center justify-center group-hover:bg-[#D4A373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg overflow-hidden product-card-hover transition-all flex flex-col group cursor-pointer">
+<div class="h-32 relative bg-surface-container-high">
+<img alt="Cappuccino Tradicional" class="w-full h-full object-cover" data-alt="A top-down view of a classic cappuccino served in a wide, matte-finish ceramic cup. The drink features flawless latte art resembling a symmetrical rosetta pattern, contrasting against the dark rim of the coffee. The setting is a minimalist wooden cafe table bathed in soft morning daylight. The mood is warm, inviting, and artisanal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTMQRoc21w5jtYFGOghM4mYu2CkUFnlNuhHAVEjzMVethjqr6lhv-sTgScIPfBLjnqlo7onvnu3RuY95Ew27lYCg17DM1r78Yf45dd94_3v2eBFzGrFTXHomVhwOBKplr0XvmIzwc5kUBvKi5Gsh3w5wyBufQWS9U7fwFRPqjdvWlXBiCHZ49TQOp28TwK3TmWiVbH1cy62oZduY0WLSohNWkVv3pgxnI2R1nBtXWon07An9qGKvnn0TS6PgMTJHprmnys0CHKycPD"/>
+<div class="absolute top-2 right-2 bg-[#FAEDCD] text-primary font-label-sm text-label-sm px-2 py-1 rounded-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span> +10 Pts
+                                </div>
+</div>
+<div class="p-sm flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface line-clamp-1">Cappuccino Trad.</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Com latte art</p>
+</div>
+</div>
+<div class="mt-sm flex justify-between items-center">
+<span class="font-headline-md text-headline-md-mobile text-primary font-bold">R$ 18,00</span>
+<button data-id="p2" data-nome="Cappuccino Tradicional" data-preco="18.0" data-pontos="10" class="w-8 h-8 rounded-full bg-surface-container text-primary flex items-center justify-center group-hover:bg-[#D4A373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Item 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg overflow-hidden product-card-hover transition-all flex flex-col group cursor-pointer">
+<div class="h-32 relative bg-surface-container-high">
+<img alt="Bolo de Cenoura" class="w-full h-full object-cover" data-alt="A tempting slice of homemade carrot cake generously topped with glossy chocolate ganache. The slice is presented on an elegant, rustic ceramic plate. A silver dessert fork rests beside it. The lighting is bright and directional, emphasizing the moist texture of the cake and the rich sheen of the chocolate. The background is slightly out of focus, suggesting a cozy cafe interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD622U3ad7JwZ5wBJpeA__wV6wjQtRQlCsKQJo5GOBA1T5C1ns5tC9Z46wxzUPkm_DsNa-SOu-F2A8fq-Idur_i8UhscLFZsK9D162UYrDAGs5Nd1eb9NzKDzU0Lj1GKMiCUjKF0g99sqKBom3xxzup50mzVKjWouc48chlk_V1ODP0CVQBUC-8TFi-dXNRRXFbP2pY1IcVuOLmQf2y7x4RCEkDYTZ8GQyrjwUSkeNMG7u7oO0mxSwhcSlvFoXHyKAFXP6oQYQXUflm"/>
+<div class="absolute top-2 right-2 bg-[#FAEDCD] text-primary font-label-sm text-label-sm px-2 py-1 rounded-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span> +8 Pts
+                                </div>
+</div>
+<div class="p-sm flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface line-clamp-1">Bolo de Cenoura</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cobertura chocolate</p>
+</div>
+</div>
+<div class="mt-sm flex justify-between items-center">
+<span class="font-headline-md text-headline-md-mobile text-primary font-bold">R$ 14,00</span>
+<button data-id="p3" data-nome="Bolo de Cenoura" data-preco="14.0" data-pontos="8" class="w-8 h-8 rounded-full bg-surface-container text-primary flex items-center justify-center group-hover:bg-[#D4A373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Cart & Checkout (Fixed Width) -->
+<aside class="w-[400px] flex flex-col gap-md">
+<!-- Customer Identification (Glassmorphism inspired) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(78,52,46,0.08)] p-md">
+<h3 class="font-label-md text-label-md text-primary mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined">person_search</span>
+                        Vincular Cliente
+                    </h3>
+<div class="relative focus-ring-bronze rounded-lg bg-surface-bright border border-outline-variant/50 transition-all group">
+<label class="absolute -top-2 left-3 bg-surface-container-lowest px-1 font-label-sm text-[10px] text-on-surface-variant group-focus-within:text-[#D4A373] transition-colors z-10">CPF ou E-mail</label>
+<input class="block w-full px-sm py-sm bg-transparent border-none focus:ring-0 font-body-md text-on-surface" placeholder="Digite para buscar..." type="text"/>
+<button class="absolute inset-y-0 right-0 px-sm flex items-center text-[#D4A373] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+<!-- Empty State for Customer (shows after search if found) -->
+<div class="mt-sm text-body-sm text-on-surface-variant italic">
+                        Nenhum cliente vinculado.
+                    </div>
+</div>
+<!-- Current Cart -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(78,52,46,0.08)] flex flex-col overflow-hidden">
+<div class="p-md border-b border-surface-container flex justify-between items-center bg-[#FAEDCD]/30">
+<h3 class="font-headline-md text-headline-md-mobile text-primary font-bold flex items-center gap-xs">
+<span class="material-symbols-outlined">shopping_cart</span>
+                            Carrinho
+                        </h3>
+<span id="cart-count" class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-1 rounded-full">0 itens</span>
+</div>
+<!-- Cart Items List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-md">
+    <div id="cart-items" class="space-y-4"></div>
+</div>
+<!-- Totals & Checkout -->
+<div class="p-md bg-surface-bright border-t border-surface-container">
+<div class="flex justify-between items-center mb-xs text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Subtotal</span>
+<span id="subtotal" class="font-body-sm text-body-sm">R$ 0,00</span>
+</div>
+<div class="flex justify-between items-center mb-sm text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Descontos</span>
+<span class="font-body-sm text-body-sm">R$ 0,00</span>
+</div>
+<!-- Points Accrual Block -->
+<div class="bg-primary/5 rounded-lg p-sm mb-md flex justify-between items-center border border-primary/10">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-md text-label-md">Pontos a Creditar</span>
+</div>
+<span id="points-credit" class="font-headline-md text-headline-md-mobile text-[#D4A373] font-bold">+0</span>
+</div>
+<div class="flex justify-between items-end mb-md">
+<span class="font-headline-lg text-headline-lg-mobile text-primary font-bold">Total</span>
+<span id="total" class="font-headline-xl text-[32px] leading-[40px] text-primary font-bold tracking-tight">R$ 0,00</span>
+</div>
+<button class="w-full bg-[#D4A373] hover:bg-[#c39160] text-white font-headline-md text-headline-md-mobile py-md rounded-lg shadow-md transition-all duration-200 flex items-center justify-center gap-sm active:scale-[0.98]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+                            Finalizar Venda
+                        </button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+    /*
+        Carrinho JavaScript (puro)
+        - adicionarProduto(eventOrId)
+        - removerProduto(id)
+        - atualizarCarrinho()
+        - calcularTotal()
+
+        Observações:
+        - Cada botão ".add-to-cart" possui atributos data-id, data-nome, data-preco e data-pontos.
+        - O HTML existente foi adaptado para expor containers com IDs: #cart-items, #cart-count, #subtotal, #total, #points-credit
+    */
+
+    const carrinho = {};
+
+    // adicionarProduto: aceita Event ou productId (string)
+    function adicionarProduto(arg) {
+        // Se for ID (string), incrementa a quantidade do item existente
+        if (typeof arg === 'string') {
+            const id = arg;
+            if (!carrinho[id]) return;
+            carrinho[id].quantidade += 1;
+            atualizarCarrinho();
+            return;
+        }
+
+        // Caso seja evento do botão, extrai atributos data-*
+        const btn = arg.currentTarget || arg.target;
+        const id = btn.dataset.id;
+        const nome = btn.dataset.nome;
+        // usa parseFloat com fallback
+        const preco = parseFloat(btn.dataset.preco.replace(',', '.')) || 0;
+        const pontos = parseInt(btn.dataset.pontos || '0', 10) || 0;
+
+        if (carrinho[id]) {
+            carrinho[id].quantidade += 1;
+        } else {
+            carrinho[id] = {
+                id,
+                nome,
+                preco,
+                pontos,
+                quantidade: 1,
+            };
+        }
+
+        atualizarCarrinho();
+    }
+
+    // removerProduto: decrementa quantidade e remove se zero
+    function removerProduto(id) {
+        if (!carrinho[id]) return;
+        carrinho[id].quantidade -= 1;
+        if (carrinho[id].quantidade <= 0) delete carrinho[id];
+        atualizarCarrinho();
+    }
+
+    // atualizarCarrinho: redesenha lista e atualiza totais
+    function atualizarCarrinho() {
+        const container = document.getElementById('cart-items');
+        const cartCount = document.getElementById('cart-count');
+        const subtotalEl = document.getElementById('subtotal');
+        const totalEl = document.getElementById('total');
+        const pointsEl = document.getElementById('points-credit');
+
+        container.innerHTML = '';
+
+        let itensCount = 0;
+        let pontosTotais = 0;
+
+        Object.values(carrinho).forEach(item => {
+            itensCount += item.quantidade;
+            pontosTotais += (item.pontos || 0) * item.quantidade;
+
+            const row = document.createElement('div');
+            row.className = 'rounded-3xl border border-slate-200 bg-slate-50 p-4';
+            row.innerHTML = `
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="font-medium text-slate-900">${item.nome}</p>
+                        <p class="mt-1 text-xs text-slate-500">+${item.pontos} pts</p>
+                    </div>
+                    <div class="flex items-center gap-2 rounded-2xl border border-slate-300 bg-white px-2 py-1 text-slate-700">
+                        <button data-action="remove" data-id="${item.id}"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+                        <span class="font-medium">${item.quantidade}</span>
+                        <button data-action="add" data-id="${item.id}"><span class="material-symbols-outlined text-[16px]">add</span></button>
+                    </div>
+                </div>
+                <div class="mt-4 text-right text-sm font-semibold text-slate-900">R$ ${item.preco.toFixed(2).replace('.',',')}</div>
+            `;
+
+            container.appendChild(row);
+        });
+
+        cartCount.textContent = `${itensCount} ${itensCount === 1 ? 'item' : 'itens'}`;
+
+        const subtotal = calcularTotal();
+        subtotalEl.textContent = `R$ ${subtotal.toFixed(2).replace('.',',')}`;
+        totalEl.textContent = `R$ ${subtotal.toFixed(2).replace('.',',')}`;
+        pointsEl.textContent = `+${pontosTotais}`;
+
+        // Delegação de eventos para botões add/remove dentro do container
+        container.querySelectorAll('button[data-action]').forEach(btn => {
+            const action = btn.dataset.action;
+            const id = btn.dataset.id;
+            btn.onclick = () => {
+                if (action === 'add') adicionarProduto(id);
+                if (action === 'remove') removerProduto(id);
+            };
+        });
+    }
+
+    // calcularTotal: soma preço * quantidade
+    function calcularTotal() {
+        return Object.values(carrinho).reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+    }
+
+    // Inicialização: conecta botões do catálogo
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('button.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', adicionarProduto);
+        });
+
+        // Exemplo: pré-popular o carrinho com nenhum item (inicializa visual)
+        atualizarCarrinho();
+    });
+</script>
+</body></html>

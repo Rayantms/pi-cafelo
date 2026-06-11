@@ -13,6 +13,47 @@ class DashboardController extends Controller
             'pontosDistribuidos' => 1850,
             'resgatesHoje' => 24,
             'novosClientes' => 18,
+            'transacoesRecentes' => [
+                [
+                    'cliente' => 'Maria Silva',
+                    'tipo' => 'Venda',
+                    'valor' => 'R$ 45,00',
+                    'status' => 'Aprovado',
+                    'icone' => 'payments',
+                ],
+                [
+                    'cliente' => 'João Souza',
+                    'tipo' => 'Resgate',
+                    'valor' => '-150 pts',
+                    'status' => 'Concluído',
+                    'icone' => 'redeem',
+                ],
+                [
+                    'cliente' => 'Ana Lima',
+                    'tipo' => 'Venda',
+                    'valor' => 'R$ 120,50',
+                    'status' => 'Pendente',
+                    'icone' => 'payments',
+                ],
+                [
+                    'cliente' => 'Pedro Alves',
+                    'tipo' => 'Venda',
+                    'valor' => 'R$ 22,00',
+                    'status' => 'Aprovado',
+                    'icone' => 'payments',
+                ],
+            ],
         ]);
     }
+
+    public function cadastroCliente()
+    {
+        return view('cadastro-cliente');
+    }
+
+    public function telaLogin()
+    {
+        return view('stitch.tela-Login');
+    }
+
 }
