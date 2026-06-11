@@ -20,4 +20,10 @@ class DashboardController extends Controller
     {
         return view('cadastro-cliente');
     }
+
+    public function telaLogin()
+    {
+        return view('stitch.tela-Login');
+    }
+
 }
