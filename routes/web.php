@@ -24,5 +24,3 @@ Route::put('/configuracoes', [ConfiguracoesController::class, 'update'])->name('
 Route::get('/registro-de-vendas', function () {
     return view('dashboard.registrodevendas');
 })->name('registro-devendas');
-
-//
