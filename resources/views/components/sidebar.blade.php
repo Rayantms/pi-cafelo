@@ -9,7 +9,7 @@
         ['label' => 'Produtos', 'icon' => 'inventory_2', 'href' => '#', 'active' => false],
         ['label' => 'Clientes', 'icon' => 'group', 'href' => '#', 'active' => false],
         ['label' => 'Vendas', 'icon' => 'point_of_sale', 'href' => '#', 'active' => false],
-        ['label' => 'Resgates', 'icon' => 'redeem', 'href' => '#', 'active' => false],
+        ['label' => 'Resgates', 'icon' => 'redeem', 'href' => route('resgates'), 'active' => request()->routeIs('resgates')],
         ['label' => 'Histórico', 'icon' => 'history', 'href' => '#', 'active' => false],
     ];
 @endphp
