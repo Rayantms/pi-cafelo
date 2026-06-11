@@ -8,7 +8,7 @@
         ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('dashboard'), 'active' => request()->routeIs('dashboard')],
         ['label' => 'Produtos', 'icon' => 'inventory_2', 'href' => '#', 'active' => false],
         ['label' => 'Clientes', 'icon' => 'group', 'href' => '#', 'active' => false],
-        ['label' => 'Vendas', 'icon' => 'point_of_sale', 'href' => '#', 'active' => false],
+        ['label' => 'Vendas', 'icon' => 'point_of_sale', 'href' => route('registro-devendas'), 'active' => request()->routeIs('registro-devendas')],
         ['label' => 'Resgates', 'icon' => 'redeem', 'href' => '#', 'active' => false],
         ['label' => 'Histórico', 'icon' => 'history', 'href' => '#', 'active' => false],
     ];
