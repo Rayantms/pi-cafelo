@@ -101,10 +101,9 @@ class DashboardController extends Controller
             $pontosCredito = 0;
 
             $venda = Venda::create([
+                'cliente_id' => $cliente->id,
                 'valor_total' => 0,
             ]);
-
-            $venda->vincularCliente($cliente);
 
             foreach ($items as $item) {
                 $produto = $produtos[$item['produto_id']];
