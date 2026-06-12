@@ -34,6 +34,4 @@ Route::get('/tela-login', [DashboardController::class, 'tela-login'])->name('tel
 Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])->name('cadastro-cliente');
 
 
-Route::get('/registro-de-vendas', function () {
-    return view('dashboard.registro-de-vendas');
-})->name('registro-de-vendas');
+Route::get('/registro-de-vendas', [DashboardController::class, 'registroVendas'])->name('registro-de-vendas');

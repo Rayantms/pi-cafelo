@@ -39,79 +39,36 @@
                     </div>
                 </div>
 
-                <div class="mb-6 flex flex-wrap gap-3 overflow-x-auto pb-2 custom-scrollbar">
-                    <button class="rounded-full bg-[#e8dbc8] px-5 py-2 text-sm font-semibold text-[#3a2517]">Todos</button>
-                    <button class="rounded-full bg-slate-100 px-5 py-2 text-sm text-slate-600 hover:bg-slate-200">Cafés Especiais</button>
-                    <button class="rounded-full bg-slate-100 px-5 py-2 text-sm text-slate-600 hover:bg-slate-200">Acompanhamentos</button>
-                    <button class="rounded-full bg-slate-100 px-5 py-2 text-sm text-slate-600 hover:bg-slate-200">Acessórios</button>
-                </div>
-
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1" onclick="addToCart('Espresso Duplo', 12.50, 5)">
+                    @forelse($produtos as $produto)
+                    <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1" onclick="addToCart('{{ $produto->nome }}', {{ $produto->preco }}, {{ $produto->pontos_compra }})">
                         <div class="relative h-40 bg-slate-100">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF8xiCJhjf0N_rVtgfC-oh9dTYweG7lZTBYaPSLXIkyIHhDtjik99xAL1WOvcxEKk4R-Vp8KrDbjpFrIoZPensfBQtWlNnYEV1YT8d1gPIg4Jz09TKPKCL6xZpOV2PSc6EVQbk3uP3TwIEyXuygc50sSCihyzUmqk3VTIXolzcE7SQcE4yZf0V5oGDKospPL_UsD_QSoKWJ2Mz1744VLbjKQq4dwkRQ9Ui_ScLsOL6VFFLoISqXJjawtXCN1IZTMz08YsyrS79jNws" alt="Espresso Duplo" class="h-full w-full object-cover" />
+                            <div class="h-full w-full object-cover flex items-center justify-center text-slate-400 text-xs">
+                                <span>Sem imagem</span>
+                            </div>
                             <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-[#FAEDCD] px-2 py-1 text-xs font-semibold text-[#6e4a26]">
                                 <span class="material-symbols-outlined text-[14px]">star</span>
-                                +5 pts
+                                +{{ $produto->pontos_compra }} pts
                             </span>
                         </div>
                         <div class="space-y-3 p-4">
                             <div>
-                                <h3 class="text-base font-semibold text-slate-900">Espresso Duplo</h3>
-                                <p class="text-sm text-slate-500">Grão Arábica</p>
+                                <h3 class="text-base font-semibold text-slate-900">{{ $produto->nome }}</h3>
+                                <p class="text-sm text-slate-500">{{ $produto->descricao ?? '-' }}</p>
                             </div>
                             <div class="flex items-center justify-between gap-3">
-                                <strong class="text-lg text-[#2a1b17]">R$ 12,50</strong>
+                                <strong class="text-lg text-[#2a1b17]">R$ {{ number_format($produto->preco, 2, ',', '.') }}</strong>
                                 <button class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-[#2a1b17] transition group-hover:bg-[#D4A373] group-hover:text-white">
                                     <span class="material-symbols-outlined">add</span>
                                 </button>
                             </div>
                         </div>
                     </article>
-
-                    <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1" onclick="addToCart('Cappuccino Tradicional', 18.00, 10)">
-                        <div class="relative h-40 bg-slate-100">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTMQRoc21w5jtYFGOghM4mYu2CkUFnlNuhHAVEjzMVethjqr6lhv-sTgScIPfBLjnqlo7onvnu3RuY95Ew27lYCg17DM1r78Yf45dd94_3v2eBFzGrFTXHomVhwOBKplr0XvmIzwc5kUBvKi5Gsh3w5wyBufQWS9U7fwFRPqjdvWlXBiCHZ49TQOp28TwK3TmWiVbH1cy62oZduY0WLSohNWkVv3pgxnI2R1nBtXWon07An9qGKvnn0TS6PgMTJHprmnys0CHKycPD" alt="Cappuccino Tradicional" class="h-full w-full object-cover" />
-                            <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-[#FAEDCD] px-2 py-1 text-xs font-semibold text-[#6e4a26]">
-                                <span class="material-symbols-outlined text-[14px]">star</span>
-                                +10 pts
-                            </span>
-                        </div>
-                        <div class="space-y-3 p-4">
-                            <div>
-                                <h3 class="text-base font-semibold text-slate-900">Cappuccino Trad.</h3>
-                                <p class="text-sm text-slate-500">Com latte art</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-3">
-                                <strong class="text-lg text-[#2a1b17]">R$ 18,00</strong>
-                                <button class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-[#2a1b17] transition group-hover:bg-[#D4A373] group-hover:text-white">
-                                    <span class="material-symbols-outlined">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1">
-                        <div class="relative h-40 bg-slate-100">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD622U3ad7JwZ5wBJpeA__wV6wjQtRQlCsKQJo5GOBA1T5C1ns5tC9Z46wxzUPkm_DsNa-SOu-F2A8fq-Idur_i8UhscLFZsK9D162UYrDAGs5Nd1eb9NzKDzU0Lj1GKMiCUjKF0g99sqKBom3xxzup50mzVKjWouc48chlk_V1ODP0CVQBUC-8TFi-dXNRRXFbP2pY1IcVuOLmQf2y7x4RCEkDYTZ8GQyrjwUSkeNMG7u7oO0mxSwhcSlvFoXHyKAFXP6oQYQXUflm" alt="Bolo de Cenoura" class="h-full w-full object-cover" />
-                            <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-[#FAEDCD] px-2 py-1 text-xs font-semibold text-[#6e4a26]">
-                                <span class="material-symbols-outlined text-[14px]">star</span>
-                                +8 pts
-                            </span>
-                        </div>
-                        <div class="space-y-3 p-4">
-                            <div>
-                                <h3 class="text-base font-semibold text-slate-900">Bolo de Cenoura</h3>
-                                <p class="text-sm text-slate-500">Cobertura chocolate</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-3">
-                                <strong class="text-lg text-[#2a1b17]">R$ 14,00</strong>
-                                <button class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-[#2a1b17] transition group-hover:bg-[#D4A373] group-hover:text-white">
-                                    <span class="material-symbols-outlined">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
+                    @empty
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-slate-500 text-sm">Nenhum produto disponível no momento.</p>
+                    </div>
+                    @endforelse
                 </div>
             </section>
 

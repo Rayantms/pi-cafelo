@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produto;
 
 class DashboardController extends Controller
 {
@@ -49,6 +50,12 @@ class DashboardController extends Controller
     public function cadastroCliente()
     {
         return view('cadastro-cliente');
+    }
+
+    public function registroVendas()
+    {
+        $produtos = Produto::query()->latest()->get();
+        return view('dashboard.registro-de-vendas', compact('produtos'));
     }
 
     public function telaLogin()
