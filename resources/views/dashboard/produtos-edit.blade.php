@@ -37,7 +37,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('produtos.update', $produto) }}" method="POST" class="space-y-6">
+                <form action="{{ route('produtos.update', $produto) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
 
@@ -63,6 +63,24 @@
                                 placeholder="Descreva o produto, características e indicações de uso"
                                 class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#d4a373] focus:ring-2 focus:ring-[#d4a373]/20"
                             >{{ old('descricao', $produto->descricao) }}</textarea>
+                        </div>
+
+                        <div class="space-y-2 md:col-span-2">
+                            <label for="imagem" class="block text-sm font-semibold text-slate-700">Foto do produto</label>
+                            @if ($produto->imagem)
+                                <div class="mb-3">
+                                    <img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" class="h-32 w-32 rounded-2xl object-cover border border-slate-200">
+                                    <p class="mt-2 text-xs text-slate-500">Imagem atual</p>
+                                </div>
+                            @endif
+                            <input
+                                id="imagem"
+                                name="imagem"
+                                type="file"
+                                accept="image/jpeg,image/png,image/jpg,image/gif"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#d4a373] focus:ring-2 focus:ring-[#d4a373]/20"
+                            />
+                            <p class="text-xs text-slate-500">Formatos: JPEG, PNG, JPG, GIF. Máximo: 2MB</p>
                         </div>
 
                         <div class="space-y-2">

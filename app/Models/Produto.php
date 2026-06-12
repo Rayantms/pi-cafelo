@@ -23,5 +23,6 @@ class Produto extends Model
         'preco',
         'pontos_compra',
         'pontos_resgate',
+        'imagem',
     ];
 }

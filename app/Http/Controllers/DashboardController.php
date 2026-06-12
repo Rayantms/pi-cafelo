@@ -14,42 +14,42 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.index', [
-            'vendasHoje' => 4250,
-            'pontosDistribuidos' => 1850,
-            'resgatesHoje' => 24,
-            'novosClientes' => 18,
-            'transacoesRecentes' => [
-                [
-                    'cliente' => 'Maria Silva',
-                    'tipo' => 'Venda',
-                    'valor' => 'R$ 45,00',
-                    'status' => 'Aprovado',
-                    'icone' => 'payments',
-                ],
-                [
-                    'cliente' => 'João Souza',
-                    'tipo' => 'Resgate',
-                    'valor' => '-150 pts',
-                    'status' => 'Concluído',
-                    'icone' => 'redeem',
-                ],
-                [
-                    'cliente' => 'Ana Lima',
-                    'tipo' => 'Venda',
-                    'valor' => 'R$ 120,50',
-                    'status' => 'Pendente',
-                    'icone' => 'payments',
-                ],
-                [
-                    'cliente' => 'Pedro Alves',
-                    'tipo' => 'Venda',
-                    'valor' => 'R$ 22,00',
-                    'status' => 'Aprovado',
-                    'icone' => 'payments',
-                ],
-            ],
-        ]);
+        $today = now()->startOfDay();
+
+        $vendasHoje = \App\Models\Venda::where('created_at', '>=', $today)->sum('valor_total');
+        $pontosDistribuidos = \App\Models\MovimentacaoPontos::where('tipo', 'credito')->where('created_at', '>=', $today)->sum('pontos');
+        $resgatesHoje = \App\Models\Resgate::where('created_at', '>=', $today)->count();
+        $novosClientes = \App\Models\Cliente::where('created_at', '>=', $today)->count();
+
+        // Monta transações recentes combinando vendas e resgates
+        $vendas = \App\Models\Venda::with('cliente')->latest()->take(6)->get()->map(function($v) {
+            return [
+                'cliente' => optional($v->cliente)->nome ?? '—',
+                'tipo' => 'Venda',
+                'valor' => 'R$ '.number_format($v->valor_total, 2, ',', '.'),
+                'status' => 'Concluído',
+                'icone' => 'payments',
+                'created_at' => $v->created_at,
+            ];
+        });
+
+        $resgates = \App\Models\Resgate::with('cliente')->latest()->take(6)->get()->map(function($r) {
+            return [
+                'cliente' => optional($r->cliente)->nome ?? '—',
+                'tipo' => 'Resgate',
+                'valor' => '-' . number_format($r->pontos_utilizados, 0, ',', '.') . ' pts',
+                'status' => 'Concluído',
+                'icone' => 'redeem',
+                'created_at' => $r->created_at,
+            ];
+        });
+
+        $transacoesRecentes = $vendas->concat($resgates)->sortByDesc('created_at')->values()->take(4)->map(function($t) {
+            unset($t['created_at']);
+            return $t;
+        })->toArray();
+
+        return view('dashboard.index', compact('vendasHoje', 'pontosDistribuidos', 'resgatesHoje', 'novosClientes', 'transacoesRecentes'));
     }
 
     public function cadastroCliente()
@@ -63,13 +63,20 @@ class DashboardController extends Controller
             'nome' => ['required', 'string', 'max:255'],
             'telefone' => ['nullable', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
+
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('clientes', 'public');
+            $validated['foto'] = $path;
+        }
 
         Cliente::create([
             'nome' => $validated['nome'],
             'email' => $validated['email'] ?? null,
             'telefone' => $validated['telefone'] ?? null,
             'saldo_pontos' => 0,
+            'foto' => $validated['foto'] ?? null,
         ]);
 
         return redirect()->route('cadastro-cliente')->with('success', 'Cliente cadastrado com sucesso.');
@@ -144,6 +151,38 @@ class DashboardController extends Controller
     public function telaLogin()
     {
         return view('stitch.tela-Login');
+    }
+
+    public function historicoVendas(Request $request)
+    {
+        $period = $request->query('period', 'all');
+        $now = now();
+
+        switch ($period) {
+            case 'today':
+                $from = $now->copy()->startOfDay();
+                break;
+            case '7':
+                $from = $now->copy()->subDays(6)->startOfDay();
+                break;
+            case '30':
+                $from = $now->copy()->subDays(29)->startOfDay();
+                break;
+            default:
+                $from = null;
+        }
+
+        if ($from) {
+            $totalVendas = Venda::where('created_at', '>=', $from)->sum('valor_total');
+            $pontosCreditados = MovimentacaoPontos::where('tipo', 'credito')->where('created_at', '>=', $from)->sum('pontos');
+            $resgatesRealizados = \App\Models\Resgate::where('created_at', '>=', $from)->count();
+        } else {
+            $totalVendas = Venda::sum('valor_total');
+            $pontosCreditados = MovimentacaoPontos::where('tipo', 'credito')->sum('pontos');
+            $resgatesRealizados = \App\Models\Resgate::count();
+        }
+
+        return view('dashboard.historico-vendas', compact('totalVendas', 'pontosCreditados', 'resgatesRealizados', 'period'));
     }
 
 }

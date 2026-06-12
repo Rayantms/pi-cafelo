@@ -23,6 +23,7 @@
                     <div>
                         <h2 class="text-xl font-semibold text-slate-900">Catálogo de Produtos</h2>
                         <p class="mt-2 text-sm text-slate-500">Busque pelo nome ou código e escolha o produto para incluir no carrinho.</p>
+                        <p class="mt-1 text-xs text-slate-400">Total: <strong>{{ $produtos->count() }}</strong> produto(s) disponível(is)</p>
                     </div>
 
                     <div class="flex-1 min-w-0">
@@ -42,10 +43,14 @@
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @forelse($produtos as $produto)
                     <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1" data-id="{{ $produto->id }}" data-nome="{{ $produto->nome }}" data-preco="{{ $produto->preco }}" data-pontos="{{ $produto->pontos_compra }}">
-                        <div class="relative h-40 bg-slate-100">
-                            <div class="h-full w-full object-cover flex items-center justify-center text-slate-400 text-xs">
-                                <span>Sem imagem</span>
-                            </div>
+                        <div class="relative h-40 bg-slate-100 overflow-hidden">
+                            @if ($produto->imagem)
+                                <img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" class="h-full w-full object-cover">
+                            @else
+                                <div class="h-full w-full flex items-center justify-center text-slate-400 text-xs">
+                                    <span>Sem imagem</span>
+                                </div>
+                            @endif
                             <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-[#FAEDCD] px-2 py-1 text-xs font-semibold text-[#6e4a26]">
                                 <span class="material-symbols-outlined text-[14px]">star</span>
                                 +{{ $produto->pontos_compra }} pts
@@ -108,14 +113,16 @@
                             <select
                                 id="cliente-id"
                                 name="cliente_id"
-                                onchange="atualizarCarrinho()"
+                                onchange="atualizarCarrinho(); atualizarClienteVinculado();"
                                 class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-[#D4A373] focus:outline-none focus:ring-2 focus:ring-[#D4A373]/20"
                             >
                                 <option value="">Selecione um cliente</option>
                                 @foreach($clientes as $cliente)
-                                    <option value="{{ $cliente->id }}">{{ $cliente->nome }} @if($cliente->email) ({{ $cliente->email }}) @endif</option>
+                                    <option value="{{ $cliente->id }}" data-saldo="{{ $cliente->saldo_pontos }}" data-telefone="{{ $cliente->telefone }}">{{ $cliente->nome }} @if($cliente->email) ({{ $cliente->email }}) @endif</option>
                                 @endforeach
                             </select>
+
+                            <div id="cliente-info" class="mt-3 text-sm text-slate-600"></div>
 
                             <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
                                 <button
@@ -396,16 +403,21 @@
         }
 
         function atualizarClienteVinculado() {
-            const clienteSelect = document.getElementById('cliente-id');
-            const status = document.getElementById('cliente-vinculado-status');
-            if (!clienteSelect || !status) return;
+                    const clienteSelect = document.getElementById('cliente-id');
+                    const status = document.getElementById('cliente-vinculado-status');
+                    const info = document.getElementById('cliente-info');
+                    if (!clienteSelect || !status || !info) return;
 
-            const selectedOption = clienteSelect.selectedOptions[0];
-            if (selectedOption && selectedOption.value) {
-                status.textContent = `Cliente vinculado: ${selectedOption.textContent}`;
-            } else {
-                status.textContent = '';
-            }
+                    const selectedOption = clienteSelect.selectedOptions[0];
+                    if (selectedOption && selectedOption.value) {
+                        const saldo = selectedOption.dataset.saldo || '0';
+                        const telefone = selectedOption.dataset.telefone || '';
+                        status.textContent = `Cliente vinculado: ${selectedOption.textContent}`;
+                        info.innerHTML = `Telefone: <strong>${telefone || '—'}</strong> &nbsp; • &nbsp; Saldo de pontos: <strong>${saldo}</strong>`;
+                    } else {
+                        status.textContent = '';
+                        info.innerHTML = '';
+                    }
         }
 
         function vincularCliente() {
@@ -468,6 +480,7 @@
 
         // Desenha estado inicial
         atualizarCarrinho();
+        atualizarClienteVinculado();
         window.resetVenda = resetVenda;
         window.addToCart = addToCart;
     </script>

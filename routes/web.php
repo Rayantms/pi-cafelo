@@ -10,9 +10,7 @@ use App\Http\Controllers\ProdutosController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/historico-vendas', function () {
-	return view('dashboard.historico-vendas');
-})->name('dashboard.historico-vendas');
+Route::get('/historico-vendas', [DashboardController::class, 'historicoVendas'])->name('dashboard.historico-vendas');
 
 Route::get('/perfil', [ClientePerfilController::class, 'show'])->name('perfil');
 Route::put('/perfil', [ClientePerfilController::class, 'update'])->name('perfil.update');

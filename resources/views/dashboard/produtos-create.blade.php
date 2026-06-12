@@ -37,7 +37,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('produtos.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('produtos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
                     <div class="grid gap-6 md:grid-cols-2">
@@ -62,6 +62,18 @@
                                 placeholder="Descreva o produto, características e indicações de uso"
                                 class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#d4a373] focus:ring-2 focus:ring-[#d4a373]/20"
                             >{{ old('descricao') }}</textarea>
+                        </div>
+
+                        <div class="space-y-2 md:col-span-2">
+                            <label for="imagem" class="block text-sm font-semibold text-slate-700">Foto do produto</label>
+                            <input
+                                id="imagem"
+                                name="imagem"
+                                type="file"
+                                accept="image/jpeg,image/png,image/jpg,image/gif"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#d4a373] focus:ring-2 focus:ring-[#d4a373]/20"
+                            />
+                            <p class="text-xs text-slate-500">Formatos: JPEG, PNG, JPG, GIF. Máximo: 2MB</p>
                         </div>
 
                         <div class="space-y-2">

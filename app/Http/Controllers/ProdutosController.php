@@ -37,7 +37,13 @@ class ProdutosController extends Controller
             'preco' => ['required', 'numeric', 'min:0'],
             'pontos_compra' => ['required', 'integer', 'min:0'],
             'pontos_resgate' => ['required', 'integer', 'min:0'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
+
+        if ($request->hasFile('imagem')) {
+            $path = $request->file('imagem')->store('produtos', 'public');
+            $validated['imagem'] = $path;
+        }
 
         Produto::create($validated);
 
@@ -54,7 +60,16 @@ class ProdutosController extends Controller
             'preco' => ['required', 'numeric', 'min:0'],
             'pontos_compra' => ['required', 'integer', 'min:0'],
             'pontos_resgate' => ['required', 'integer', 'min:0'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
+
+        if ($request->hasFile('imagem')) {
+            if ($produto->imagem && \Storage::disk('public')->exists($produto->imagem)) {
+                \Storage::disk('public')->delete($produto->imagem);
+            }
+            $path = $request->file('imagem')->store('produtos', 'public');
+            $validated['imagem'] = $path;
+        }
 
         $produto->update($validated);
 

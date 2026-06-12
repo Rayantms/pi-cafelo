@@ -125,9 +125,13 @@
                                 >
                                     <td class="px-6 py-5">
                                         <div class="flex items-center gap-4">
-                                            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#faedcd] text-sm font-bold uppercase text-[#7d562d]">
-                                                {{ mb_substr($produto->nome, 0, 1) }}
-                                            </div>
+                                            @if ($produto->imagem)
+                                                <img src="/storage/{{ $produto->imagem }}" alt="{{ $produto->nome }}" class="h-12 w-12 shrink-0 rounded-2xl object-cover shadow-sm">
+                                            @else
+                                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#faedcd] text-sm font-bold uppercase text-[#7d562d]">
+                                                    {{ mb_substr($produto->nome, 0, 1) }}
+                                                </div>
+                                            @endif
                                             <div>
                                                 <p class="font-semibold text-slate-900">{{ $produto->nome }}</p>
                                                 <p class="text-sm text-slate-500">ID #{{ $produto->id }}</p>
@@ -200,7 +204,11 @@
                         </div>
 
                         <div class="flex items-center gap-3 rounded-3xl bg-white px-5 py-4 shadow-sm">
-                            <span class="material-symbols-outlined text-2xl text-amber-600">local_mall</span>
+                            @if ($produtoMaisCaro->imagem)
+                                <img src="/storage/{{ $produtoMaisCaro->imagem }}" alt="{{ $produtoMaisCaro->nome }}" class="h-16 w-16 rounded-2xl object-cover shadow-sm">
+                            @else
+                                <span class="material-symbols-outlined text-4xl text-amber-600">local_mall</span>
+                            @endif
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Preço</p>
                                 <p class="text-lg font-semibold text-slate-900">R$ {{ number_format((float) $produtoMaisCaro->preco, 2, ',', '.') }}</p>

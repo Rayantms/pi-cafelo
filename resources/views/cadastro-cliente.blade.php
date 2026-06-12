@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <form class="space-y-6 mt-6" action="{{ route('cadastro-cliente.store') }}" method="POST">
+            <form class="space-y-6 mt-6" action="{{ route('cadastro-cliente.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid gap-6 md:grid-cols-2">
                     <div class="space-y-2">
@@ -78,6 +78,11 @@
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="email">E-mail</label>
                         <input id="email" name="email" type="email" required placeholder="seu@email.com" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-slate-700" for="foto">Foto (opcional)</label>
+                        <input id="foto" name="foto" type="file" accept="image/jpeg,image/png,image/jpg,image/gif" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
+                        <p class="text-xs text-slate-500">Formatos: JPEG, PNG, JPG, GIF. Máximo: 2MB</p>
                     </div>
                 </div>
 

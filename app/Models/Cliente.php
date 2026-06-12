@@ -22,5 +22,6 @@ class Cliente extends Model
         'email',
         'telefone',
         'saldo_pontos',
+        'foto',
     ];
 }
