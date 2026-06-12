@@ -35,3 +35,4 @@ Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])
 
 
 Route::get('/registro-de-vendas', [DashboardController::class, 'registroVendas'])->name('registro-de-vendas');
+Route::post('/registro-de-vendas', [DashboardController::class, 'storeVenda'])->name('registro-de-vendas.store');

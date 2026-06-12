@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Cliente;
+use App\Models\ItemVenda;
+use App\Models\MovimentacaoPontos;
 use App\Models\Produto;
+use App\Models\Venda;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -55,7 +60,68 @@ class DashboardController extends Controller
     public function registroVendas()
     {
         $produtos = Produto::query()->latest()->get();
-        return view('dashboard.registro-de-vendas', compact('produtos'));
+        $clientes = Cliente::all();
+
+        return view('dashboard.registro-de-vendas', compact('produtos', 'clientes'));
+    }
+
+    public function storeVenda(Request $request)
+    {
+        $validated = $request->validate([
+            'cliente_id' => ['required', 'exists:clientes,id'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.produto_id' => ['required', 'integer', 'exists:produtos,id'],
+            'items.*.quantidade' => ['required', 'integer', 'min:1'],
+        ]);
+
+        $cliente = Cliente::findOrFail($validated['cliente_id']);
+        $items = collect($validated['items']);
+        $produtos = Produto::whereIn('id', $items->pluck('produto_id'))->get()->keyBy('id');
+
+        DB::transaction(function () use ($cliente, $items, $produtos) {
+            $valorTotal = 0;
+            $pontosCredito = 0;
+
+            $venda = Venda::create([
+                'valor_total' => 0,
+            ]);
+
+            $venda->vincularCliente($cliente);
+
+            foreach ($items as $item) {
+                $produto = $produtos[$item['produto_id']];
+                $quantidade = (int) $item['quantidade'];
+                $valorUnitario = $produto->preco;
+                $subtotal = $valorUnitario * $quantidade;
+
+                ItemVenda::create([
+                    'venda_id' => $venda->id,
+                    'produto_id' => $produto->id,
+                    'quantidade' => $quantidade,
+                    'valor_unitario' => $valorUnitario,
+                    'subtotal' => $subtotal,
+                ]);
+
+                $valorTotal += $subtotal;
+                $pontosCredito += $produto->pontos_compra * $quantidade;
+            }
+
+            $venda->valor_total = $valorTotal;
+            $venda->save();
+
+            if ($pontosCredito > 0) {
+                MovimentacaoPontos::create([
+                    'cliente_id' => $cliente->id,
+                    'tipo' => 'credito',
+                    'pontos' => $pontosCredito,
+                    'descricao' => "Pontos creditados pela venda #{$venda->id}",
+                ]);
+
+                $cliente->increment('saldo_pontos', $pontosCredito);
+            }
+        });
+
+        return redirect()->route('registro-de-vendas')->with('success', 'Venda registrada com sucesso.');
     }
 
     public function telaLogin()
