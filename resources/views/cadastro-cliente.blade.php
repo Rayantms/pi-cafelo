@@ -9,12 +9,12 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                    <a href="#" class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#2a1b17] transition-transform hover:-translate-y-0.5">
+                    <a href="{{ route('cadastro-cliente') }}" class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#2a1b17] transition-transform hover:-translate-y-0.5">
                         <span class="material-symbols-outlined text-[18px]">person_add</span>
                         Novo Cliente
                     </a>
 
-                    <a href="#" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+                    <a href="{{ route('registro-de-vendas') }}" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
                         <span class="material-symbols-outlined text-[18px]">payments</span>
                         Registrar Venda
                     </a>
@@ -27,6 +27,22 @@
                 <h2 class="text-2xl font-semibold text-slate-900">Cadastro de Cliente</h2>
                 <p class="mt-2 text-sm text-slate-500">Complete as informações para liberar o cliente no sistema de pontos.</p>
             </div>
+
+            @if(session('success'))
+                <div class="mb-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="mb-4 rounded-3xl border border-rose-200 bg-rose-50 p-4 text-rose-800">
+                    <ul class="list-disc pl-5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div class="grid gap-4 rounded-3xl border border-slate-100 bg-slate-50 p-6">
                 <div class="grid grid-cols-3 gap-4 text-center">
@@ -48,15 +64,12 @@
                 </div>
             </div>
 
-            <form class="space-y-6 mt-6" action="#" method="POST">
+            <form class="space-y-6 mt-6" action="{{ route('cadastro-cliente.store') }}" method="POST">
+                @csrf
                 <div class="grid gap-6 md:grid-cols-2">
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="nome">Nome Completo</label>
                         <input id="nome" name="nome" type="text" required placeholder="Seu nome completo" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
-                    </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-700" for="cpf">CPF</label>
-                        <input id="cpf" name="cpf" type="text" required placeholder="000.000.000-00" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="telefone">Telefone Celular</label>
@@ -66,14 +79,6 @@
                         <label class="block text-sm font-semibold text-slate-700" for="email">E-mail</label>
                         <input id="email" name="email" type="email" required placeholder="seu@email.com" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
                     </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-700" for="senha">Senha</label>
-                        <input id="senha" name="senha" type="password" required placeholder="••••••••" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
-                    </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-700" for="confirm_senha">Confirmar Senha</label>
-                        <input id="confirm_senha" name="confirm_senha" type="password" required placeholder="••••••••" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
-                    </div>
                 </div>
 
                 <div class="pt-4">
@@ -82,33 +87,6 @@
                     </button>
                 </div>
             </form>
-
-            <div class="mt-6 border-t border-slate-200 pt-6 text-center">
-                <p class="text-sm text-slate-600">Já possui uma conta? <a href="#" class="font-semibold text-[#7d562d] hover:text-[#4e342e]">Entrar</a></p>
-            </div>
         </section>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('form');
-            if (!form) return;
-
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                const button = form.querySelector('button[type="submit"]');
-                if (!button) return;
-
-                button.disabled = true;
-                button.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Processando...';
-                button.classList.add('opacity-80', 'cursor-not-allowed');
-
-                setTimeout(() => {
-                    button.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Conta Criada!';
-                    button.classList.remove('bg-[#7d562d]');
-                    button.classList.add('bg-emerald-600', 'text-white');
-                }, 1600);
-            });
-        });
-    </script>
 </x-app-layout>

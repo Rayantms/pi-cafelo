@@ -57,6 +57,24 @@ class DashboardController extends Controller
         return view('cadastro-cliente');
     }
 
+    public function storeCliente(Request $request)
+    {
+        $validated = $request->validate([
+            'nome' => ['required', 'string', 'max:255'],
+            'telefone' => ['nullable', 'string', 'max:50'],
+            'email' => ['nullable', 'email', 'max:255'],
+        ]);
+
+        Cliente::create([
+            'nome' => $validated['nome'],
+            'email' => $validated['email'] ?? null,
+            'telefone' => $validated['telefone'] ?? null,
+            'saldo_pontos' => 0,
+        ]);
+
+        return redirect()->route('cadastro-cliente')->with('success', 'Cliente cadastrado com sucesso.');
+    }
+
     public function registroVendas()
     {
         $produtos = Produto::query()->latest()->get();

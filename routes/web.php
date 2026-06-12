@@ -32,7 +32,7 @@ Route::get('/resgates', function () {
 
 Route::get('/tela-login', [DashboardController::class, 'tela-login'])->name('tela-login');
 Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])->name('cadastro-cliente');
-
+Route::post('/cadastro-cliente', [DashboardController::class, 'storeCliente'])->name('cadastro-cliente.store');
 
 Route::get('/registro-de-vendas', [DashboardController::class, 'registroVendas'])->name('registro-de-vendas');
 Route::post('/registro-de-vendas', [DashboardController::class, 'storeVenda'])->name('registro-de-vendas.store');
