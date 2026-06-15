@@ -75,9 +75,12 @@
                             <div class="space-y-2 md:col-span-2">
                                 <label class="block text-sm font-medium text-slate-700">Telefone</label>
                                 <input
-                                    type="text"
+                                    type="tel"
                                     name="telefone"
                                     value="{{ old('telefone', $model->telefone) }}"
+                                    inputmode="numeric"
+                                    autocomplete="tel"
+                                    maxlength="15"
                                     class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#d4a373]"
                                 />
                                 @error('telefone')<p class="text-xs text-rose-600">{{ $message }}</p>@enderror

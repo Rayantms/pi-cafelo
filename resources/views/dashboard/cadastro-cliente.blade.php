@@ -56,11 +56,11 @@
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="cpf">CPF</label>
-                        <input id="cpf" name="cpf" type="text" required placeholder="000.000.000-00" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
+                        <input id="cpf" name="cpf" type="text" inputmode="numeric" maxlength="14" required placeholder="000.000.000-00" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="telefone">Telefone Celular</label>
-                        <input id="telefone" name="telefone" type="tel" required placeholder="(00) 00000-0000" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
+                        <input id="telefone" name="telefone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="15" required placeholder="(00) 00000-0000" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#dec1b3] focus:ring-2 focus:ring-[#dec1b3]/20" />
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-semibold text-slate-700" for="email">E-mail</label>
