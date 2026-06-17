@@ -19,11 +19,6 @@ class ResgateController extends Controller
     public function index()
     {
         $cliente = $this->getCliente();
-
-        if (! $cliente) {
-            return redirect()->route('dashboard')->with('error', 'Nenhum cliente encontrado.');
-        }
-
         $produtos = Produto::all();
 
         return view('dashboard.tela-resgate', compact('cliente', 'produtos'));
@@ -38,7 +33,7 @@ class ResgateController extends Controller
         $cliente = $this->getCliente();
 
         if (! $cliente) {
-            return redirect()->route('dashboard')->with('error', 'Nenhum cliente encontrado.');
+            return redirect()->route('resgates')->with('error', 'Nenhum cliente encontrado. Cadastre um cliente antes de realizar resgates.');
         }
 
         $produto = Produto::findOrFail($validated['produto_id']);

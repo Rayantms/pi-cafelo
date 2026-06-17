@@ -24,6 +24,7 @@
                 titulo="Resgates"
                 :valor="$resgatesHoje"
                 icone="redeem"
+                :href="route('resgates')"
             />
 
             <x-stat-card

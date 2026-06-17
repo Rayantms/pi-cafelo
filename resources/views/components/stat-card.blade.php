@@ -5,6 +5,7 @@
     'badge' => null,
     'badgeIcon' => 'trending_up',
     'badgeTone' => 'success',
+    'href' => null,
 ])
 
 @php
@@ -15,7 +16,11 @@
     ];
 @endphp
 
-<div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+@php
+    $tag = $href ? 'a' : 'div';
+@endphp
+
+<{{ $tag }} @if($href) href="{{ $href }}" @endif class="block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition {{ $href ? 'hover:-translate-y-0.5 hover:shadow-md' : '' }}">
 
     <div class="mb-6 flex items-start justify-between gap-4">
 
@@ -44,4 +49,4 @@
 
     </div>
 
-</div>
+</{{ $tag }}>

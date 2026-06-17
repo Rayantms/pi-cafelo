@@ -26,6 +26,7 @@ Route::get('/produtos/{produto}/editar', [ProdutosController::class, 'edit'])->n
 Route::put('/produtos/{produto}', [ProdutosController::class, 'update'])->name('produtos.update');
 
 Route::get('/resgates', [ResgateController::class, 'index'])->name('resgates');
+Route::get('/resgastes', fn () => redirect()->route('resgates'));
 Route::post('/resgates', [ResgateController::class, 'store'])->name('resgates.store');
 
 Route::get('/tela-login', [DashboardController::class, 'tela-login'])->name('tela-login');

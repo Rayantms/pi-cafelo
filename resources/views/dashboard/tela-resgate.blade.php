@@ -16,14 +16,24 @@
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">Perfil do Cliente</h1>
                 <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                    Gerencie os pontos e resgates de <strong class="font-semibold text-slate-900">{{ $cliente->nome }}</strong>.
+                    @if($cliente)
+                        Gerencie os pontos e resgates de <strong class="font-semibold text-slate-900">{{ $cliente->nome }}</strong>.
+                    @else
+                        Cadastre um cliente para habilitar os resgates.
+                    @endif
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4">
                 <span class="text-xs uppercase tracking-[0.2em] text-slate-500">ID do Cliente</span>
-                <span class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">{{ $cliente->id }}</span>
+                <span class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">{{ $cliente?->id ?? 'Sem cliente' }}</span>
             </div>
         </div>
+
+        @if(! $cliente)
+            <div class="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-4 text-amber-900 shadow-sm">
+                Nenhum cliente foi encontrado. A tela de resgates esta aberta, mas os resgates ficam indisponiveis ate cadastrar um cliente.
+            </div>
+        @endif
 
         <section class="rounded-[2rem] bg-amber-50 px-8 py-8 shadow-sm">
             <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
@@ -34,23 +44,23 @@
                     </div>
                     <div class="mt-6 flex flex-wrap items-center gap-3">
                         <span class="text-sm font-medium text-slate-700">Você possui</span>
-                        <span class="text-5xl font-bold text-amber-700">{{ $cliente->saldo_pontos }}</span>
+                        <span class="text-5xl font-bold text-amber-700">{{ $cliente?->saldo_pontos ?? 0 }}</span>
                         <span class="text-lg font-semibold text-amber-700">pontos</span>
                     </div>
 
                     <div class="mt-8 max-w-md space-y-3">
                         <div class="text-sm text-slate-600">
-                            <span class="block">Saldo de pontos atual: <strong class="text-slate-900">{{ $cliente->saldo_pontos }}</strong></span>
+                            <span class="block">Saldo de pontos atual: <strong class="text-slate-900">{{ $cliente?->saldo_pontos ?? 0 }}</strong></span>
                         </div>
                         <div class="overflow-hidden rounded-full bg-amber-100">
-                            <div class="h-2 rounded-full bg-amber-600" style="width: {{ min(($cliente->saldo_pontos / 100) * 100, 100) }}%;"></div>
+                            <div class="h-2 rounded-full bg-amber-600" style="width: {{ min((($cliente?->saldo_pontos ?? 0) / 100) * 100, 100) }}%;"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="rounded-[1.75rem] border border-white/80 bg-white p-6 text-center shadow-sm">
                     <span class="block text-xs uppercase tracking-[0.24em] text-slate-500">Próxima Expiração</span>
-                    <span class="mt-4 block text-3xl font-semibold text-slate-900">{{ $cliente->saldo_pontos }}</span>
+                    <span class="mt-4 block text-3xl font-semibold text-slate-900">{{ $cliente?->saldo_pontos ?? 0 }}</span>
                     <span class="mt-1 block text-sm text-slate-500">pontos disponíveis</span>
                 </div>
             </div>
@@ -80,7 +90,7 @@
                         :badge="$produto->badge ?? null"
                         :category="$produto->categoria ?? 'all'"
                         :productId="$produto->id"
-                        :disabled="($cliente->saldo_pontos < $produto->pontos_resgate)"
+                        :disabled="(! $cliente || $cliente->saldo_pontos < $produto->pontos_resgate)"
                     />
                 @empty
                     <div class="col-span-full py-12 text-center text-slate-500">
