@@ -4,6 +4,7 @@ use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientePerfilController;
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\ResgateController;
 
 /* Route::middleware(['auth'])->group(function () {
 }); */
@@ -24,9 +25,8 @@ Route::get('/produtos/{produto}', [ProdutosController::class, 'show'])->name('pr
 Route::get('/produtos/{produto}/editar', [ProdutosController::class, 'edit'])->name('produtos.edit');
 Route::put('/produtos/{produto}', [ProdutosController::class, 'update'])->name('produtos.update');
 
-Route::get('/resgates', function () {
-	return view('dashboard.tela-resgate');
-})->name('resgates');
+Route::get('/resgates', [ResgateController::class, 'index'])->name('resgates');
+Route::post('/resgates', [ResgateController::class, 'store'])->name('resgates.store');
 
 Route::get('/tela-login', [DashboardController::class, 'tela-login'])->name('tela-login');
 Route::get('/cadastro-cliente', [DashboardController::class, 'cadastroCliente'])->name('cadastro-cliente');
