@@ -22,4 +22,14 @@ class Resgate extends Model
         'produto_id',
         'pontos_utilizados',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    public function produto()
+    {
+        return $this->belongsTo(Produto::class, 'produto_id');
+    }
 }
