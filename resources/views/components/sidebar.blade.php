@@ -53,9 +53,10 @@
 
     <div class="p-4">
 
-        <button class="w-full rounded-xl bg-[#d4a373] px-4 py-3 text-sm font-semibold text-[#2a1b17] transition-colors hover:bg-[#e0b27f]">
+        <a href="{{ route('registro-de-vendas') }}" class="w-full rounded-xl bg-[#d4a373] px-4 py-3 text-sm font-semibold text-[#2a1b17] transition-colors hover:bg-[#e0b27f] inline-flex items-center justify-center">
+            <span class="material-symbols-outlined mr-2">add</span>
             Nova Venda
-        </button>
+        </a>
 
     </div>
 

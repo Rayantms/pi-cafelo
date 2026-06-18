@@ -31,10 +31,10 @@
         </a>
     </nav>
     <div class="px-md py-4 mt-auto border-t border-on-primary/10">
-        <button class="w-full py-3 bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-lg">
+        <a href="{{ route('registro-de-vendas') }}" class="w-full py-3 bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 mb-lg">
             <span class="material-symbols-outlined" data-icon="add">add</span>
             Nova Venda
-        </button>
+        </a>
         <div class="space-y-1">
             <a class="flex items-center gap-3 px-4 py-2 text-on-primary/70 hover:text-on-primary transition-colors" href="{{ route('configuracoes') }}">
                 <span class="material-symbols-outlined" data-icon="settings">settings</span>
