@@ -13,6 +13,12 @@ class ResgateController extends Controller
 {
     protected function getCliente()
     {
+        // Prefer active cliente linked to authenticated user (or first user for testing), fallback to first cliente
+        $user = auth()->user() ?? \App\Models\User::first();
+        if ($user && $user->active_cliente_id) {
+            return Cliente::find($user->active_cliente_id);
+        }
+
         return Cliente::first();
     }
 
