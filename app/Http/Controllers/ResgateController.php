@@ -18,10 +18,19 @@ class ResgateController extends Controller
 
     public function index()
     {
-        $cliente = $this->getCliente();
+        // For testing: use first user if not authenticated
+        $user = auth()->user() ?? \App\Models\User::first();
+        
+        $cliente = null;
+        if ($user && $user->active_cliente_id) {
+            $cliente = Cliente::find($user->active_cliente_id);
+        }
+        $cliente = $cliente ?? $this->getCliente();
+        
+        $clientes = Cliente::all();
         $produtos = Produto::all();
 
-        return view('dashboard.tela-resgate', compact('cliente', 'produtos'));
+        return view('dashboard.tela-resgate', compact('cliente', 'clientes', 'produtos'));
     }
 
     public function store(Request $request)
@@ -60,5 +69,34 @@ class ResgateController extends Controller
         });
 
         return redirect()->route('resgates')->with('success', 'Resgate realizado com sucesso.');
+    }
+
+    public function selectCliente(Request $request)
+    {
+        $data = $request->validate([
+            'cliente_id' => 'required|exists:clientes,id',
+        ]);
+
+        // For testing: use first user if not authenticated
+        $user = $request->user() ?? \App\Models\User::first();
+
+        if (! $user) {
+            return response()->json(['success' => false, 'message' => 'Nenhum usuário disponível.'], 403);
+        }
+
+        $user->active_cliente_id = $data['cliente_id'];
+        $user->save();
+
+        $cliente = Cliente::find($data['cliente_id']);
+
+        return response()->json([
+            'success' => true,
+            'cliente' => [
+                'id' => $cliente->id,
+                'nome' => $cliente->nome,
+                'email' => $cliente->email,
+                'telefone' => $cliente->telefone,
+            ],
+        ]);
     }
 }

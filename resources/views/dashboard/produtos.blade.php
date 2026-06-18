@@ -173,6 +173,14 @@
                                                 <span class="material-symbols-outlined text-[18px]">visibility</span>
                                                 Ver
                                             </a>
+                                            <form method="POST" action="{{ route('produtos.destroy', $produto) }}" class="inline" onsubmit="return confirm('Tem certeza que deseja deletar este produto?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100 hover:border-red-300">
+                                                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                                                    Deletar
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

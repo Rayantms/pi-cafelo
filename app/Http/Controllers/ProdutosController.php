@@ -77,4 +77,16 @@ class ProdutosController extends Controller
             ->route('produtos')
             ->with('success', 'Produto atualizado com sucesso.');
     }
+
+    public function destroy(Produto $produto)
+    {
+        if ($produto->imagem && \Storage::disk('public')->exists($produto->imagem)) {
+            \Storage::disk('public')->delete($produto->imagem);
+        }
+        $produto->delete();
+
+        return redirect()
+            ->route('produtos')
+            ->with('success', 'Produto deletado com sucesso.');
+    }
 }

@@ -53,6 +53,16 @@
                     <p class="text-sm text-slate-500">Atualize seus dados de contato e mantenha seu perfil sempre em dia.</p>
                 </div>
 
+                <div class="mt-4 flex gap-2">
+                    <select id="clienteSelector" class="flex-1 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-[#d4a373]">
+                        <option value="">-- Selecione um cliente --</option>
+                        @foreach($clientes as $c)
+                            <option value="{{ $c->id }}" @if($cliente->id === $c->id) selected @endif>{{ $c->nome ?: 'Cliente' }} ({{ $c->email }})</option>
+                        @endforeach
+                    </select>
+                    <button type="button" id="btnAlterar" class="inline-flex items-center justify-center rounded-3xl bg-[#d4a373] px-6 py-2 text-sm font-semibold text-white transition hover:bg-[#c29563]">Alterar cliente</button>
+                </div>
+
                 @if (session('status'))
                     <div class="mt-6 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
                         {{ session('status') }}
@@ -115,4 +125,48 @@
 
     </div>
 
-</x-app-layout>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const select = document.getElementById('clienteSelector');
+            const btn = document.getElementById('btnAlterar');
+            const csrf = '{{ csrf_token() }}';
+
+            if (!btn || !select) return;
+
+            btn.addEventListener('click', function () {
+                const clienteId = select.value;
+                if (!clienteId) {
+                    alert('Selecione um cliente');
+                    return;
+                }
+
+                fetch('/perfil/selecionar-cliente', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrf,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ cliente_id: clienteId })
+                })
+                .then(r => {
+                    if (r.status === 401 || r.status === 403) {
+                        window.location.href = '/login';
+                        return Promise.reject('Não autenticado');
+                    }
+                    return r.json();
+                })
+                .then(json => {
+                    if (json.success) {
+                        location.reload();
+                    } else {
+                        alert(json.message || 'Erro ao alterar cliente');
+                    }
+                })
+                .catch(err => alert('Erro: ' + err));
+            });
+        });
+    </script>
+
+    </x-app-layout>
