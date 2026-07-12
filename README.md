@@ -13,7 +13,7 @@ No sistema, o cliente pode realizar seu cadastro, acumular pontos a cada compra 
 - Consulta do saldo de pontos;
 - Resgate de recompensas.
 
-## 🛠 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - PHP
 - Laravel
